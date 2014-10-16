@@ -17,7 +17,7 @@ using namespace std;
    5) Estimate local variences for each of the local windows 
 *////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-double moment1(int i, int j, Mat image){
+double moment1(){
     int ii = i-15; 
     int jj = j-15;
     double sum = 0;
@@ -138,11 +138,12 @@ int main()
     }
     
     //Now we process this window through the desired functions
+    //int temp[32][32]=0;
     for(int k=1;k<64;k++){
        
        // all 63 AC channels, compute an image for each of them first
        // int array to image??
-       
+          
     }
     
     waitKey(0);
