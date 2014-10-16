@@ -115,22 +115,25 @@ int main()
     int k = 64;
     int m[k];
     
+    // a local window analysis starts
     for(int i = 0;i<25;i++){
         for(int j = 0;j<25;j++){
             temp8 = window_img(cv::Rect(i,j,8,8));
+            
+            // DCT of the window here
+            dct(temp8,temp8,0);
             // Mat to uchar array
             uchar *nice = temp8.data;
             for(int l=0;l<k;l++){ m[l] = nice[l]; }            
 
-            // The ist channel is redundent as it is the DC component
+            // The 1st channel is redundent as it is the DC component
             for(int ii=i;ii<i+8;ii++){
                 for(int jj=j;jj<j+8;jj++){
                     for(k = 0;k<64;k++){
                         local_channels[ii][jj][k] = local_channels[ii][jj][k] + m[k];
                     }
                 }
-            }
-
+            } 
         }
     }    
     
