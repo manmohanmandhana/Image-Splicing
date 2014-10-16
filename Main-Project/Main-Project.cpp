@@ -130,11 +130,22 @@ int main()
     }
     
     //Now we process this window through the desired functions
-    //int temp[32][32]=0;
+    int temp[32][32]=0;
+    double m1,m2,m3,m4;
     for(int k=1;k<64;k++){
        
        // all 63 AC channels, compute an image for each of them first
-       // int array to image??
+       for(int i=0;i<32;i++){
+          for(int j=0;j<32;j++){
+             temp[i][j] = local_channels[i][j][k];
+          }
+       }
+       
+       // compute all the moments
+       m1 = moment1(temp);
+       m2 = moment2(temp);
+       m3 = moment3(temp);
+       m4 = moment4(temp);
           
     }
     
