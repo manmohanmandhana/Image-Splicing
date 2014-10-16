@@ -10,8 +10,8 @@ using namespace std;
 
 
 /*////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-   1) Into K channels using AC filters from DCT decomposition    
-   2) Divide the image into proper windows
+   1) 32x32 overlapping local windows. Each window will have 63 channels corrosponding to 8x8 DCT kernal
+   2) Estimate the image for each channel.    
    3) Compute 4 image moments for each of the K channels
    4) Compute the varience and Kurtosis for each local window for each channel
    5) Estimate local variences for each of the local windows 
@@ -21,8 +21,8 @@ double moment1(int i, int j, Mat image){
     int ii = i-15; 
     int jj = j-15;
     double sum = 0;
-    for(int k=ii,k<ii+32,k++){
-        for(int kk=jj,kk<jj+32,kk++){
+    for(int k=ii;k<ii+32;k++){
+        for(int kk=jj;kk<jj+32;kk++){
             sum = sum + image.at<uchar>(k,kk);
         }
     }
@@ -34,8 +34,8 @@ double moment2(int i, int j, Mat image){
     int ii = i-15; 
     int jj = j-15;
     double sum = 0;
-    for(int k=ii,k<ii+32,k++){
-        for(int kk=jj,kk<jj+32,kk++){
+    for(int k=ii;k<ii+32;k++){
+        for(int kk=jj;kk<jj+32;kk++){
             sum = sum + (image.at<uchar>(k,kk))*(image.at<uchar>(k,kk));
         }
     }
@@ -47,8 +47,8 @@ double moment3(int i, int j, Mat image){
     int ii = i-15; 
     int jj = j-15;
     double sum = 0;
-    for(int k=ii,k<ii+32,k++){
-        for(int kk=jj,kk<jj+32,kk++){
+    for(int k=ii;k<ii+32;k++){
+        for(int kk=jj;kk<jj+32;kk++){
             sum = sum + (image.at<uchar>(k,kk))*(image.at<uchar>(k,kk))*(image.at<uchar>(k,kk));
         }
     }
@@ -60,8 +60,8 @@ double moment4(int i, int j, Mat image){
     int ii = i-15; 
     int jj = j-15;
     double sum = 0;
-    for(int k=ii,k<ii+32,k++){
-        for(int kk=jj,kk<jj+32,kk++){
+    for(int k=ii;k<ii+32;k++){
+        for(int kk=jj;kk<jj+32;kk++){
             sum = sum + (image.at<uchar>(k,kk))*(image.at<uchar>(k,kk))*(image.at<uchar>(k,kk))*(image.at<uchar>(k,kk));
         }
     }
@@ -93,11 +93,49 @@ int main()
 {
     // Step 1 to divede the image into 8x8 DCT decomposition windows and hence K=63
     // divide into 32x32 windows and then do the 8x8 window division and perform DCT decomposition
+    // Do we need to conver to grayscale???
     Mat img_input;
-    img_input = imread('1.jpg',1);
-    totrows = img_input.rows;
-    totcols = img_input.cols;
+    img_input = imread("1.jpg",1);
+    cvtColor(img_input,img_input,CV_BGR2GRAY);
+    int totrows = img_input.rows;
+    int totcols = img_input.cols;
     
+    // now we need 32x32 overlapping windows for the image
+    // Yet to apply it on the whole of the image
+
+    Mat window_img = img_input(cv::Rect(0,0,32,32)); // the first window of 32x32
+    cout << window_img.rows << window_img.cols << endl;
+
+    //Mat temp = Mat::zeros( window_img.size(), window_img.type());
+    Mat temp8 = Mat::zeros( 8,8, window_img.type());
+    
+    // this represents the stack of 64 images in each local window 
+    double local_channels[32][32][64] = 0;
+
+    int k = 64;
+    int m[k];
+    
+    for(int i = 0;i<25;i++){
+        for(int j = 0;j<25;j++){
+            temp8 = window_img(cv::Rect(i,j,8,8));
+            // Mat to uchar array
+            uchar *nice = temp8.data;
+            for(int l=0;l<k;l++){ m[l] = nice[l]; }            
+
+            // The ist channel is redundent as it is the DC component
+            for(int ii=i;ii<i+8;ii++){
+                for(int jj=j;jj<j+8;jj++){
+                    for(k = 0;k<64;k++){
+                        local_channels[ii][jj][k] = local_channels[ii][jj][k] + m[k];
+                    }
+                }
+            }
+
+        }
+    }    
+    
+    waitKey(0);
+    return 0;
 
 }
 

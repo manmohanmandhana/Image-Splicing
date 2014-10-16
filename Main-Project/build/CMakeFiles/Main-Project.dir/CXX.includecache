@@ -11,6 +11,8 @@ opencv2/highgui/highgui.hpp
 /home/riddhish/Documents/git/Image-Splicing/Main-Project/opencv2/highgui/highgui.hpp
 opencv2/imgproc/imgproc.hpp
 /home/riddhish/Documents/git/Image-Splicing/Main-Project/opencv2/imgproc/imgproc.hpp
+opencv2/core/core.hpp
+/home/riddhish/Documents/git/Image-Splicing/Main-Project/opencv2/core/core.hpp
 iostream
 -
 stdio.h
