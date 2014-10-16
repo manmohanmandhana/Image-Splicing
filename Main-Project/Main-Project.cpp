@@ -17,52 +17,44 @@ using namespace std;
    5) Estimate local variences for each of the local windows 
 *////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-double moment1(){
-    int ii = i-15; 
-    int jj = j-15;
+double moment1(int input[32][32]){
     double sum = 0;
-    for(int k=ii;k<ii+32;k++){
-        for(int kk=jj;kk<jj+32;kk++){
-            sum = sum + image.at<uchar>(k,kk);
+    for(int k=0;k<32;k++){
+        for(int kk=0;kk<32;kk++){
+            sum = sum + input[k][kk];
         }
     }
     sum = sum/(32*32);
     return sum;
 }
 
-double moment2(int i, int j, Mat image){
-    int ii = i-15; 
-    int jj = j-15;
+double moment2(int input[32][32){
     double sum = 0;
-    for(int k=ii;k<ii+32;k++){
-        for(int kk=jj;kk<jj+32;kk++){
-            sum = sum + (image.at<uchar>(k,kk))*(image.at<uchar>(k,kk));
+    for(int k=0;k<32;k++){
+        for(int kk=0;kk<32;kk++){
+            sum = sum + (input[k][kk])*(input[k][kk]);
         }
     }
     sum = sum/(32*32);
     return sum;
 }
 
-double moment3(int i, int j, Mat image){
-    int ii = i-15; 
-    int jj = j-15;
+double moment3(int input[32][32]){
     double sum = 0;
-    for(int k=ii;k<ii+32;k++){
-        for(int kk=jj;kk<jj+32;kk++){
-            sum = sum + (image.at<uchar>(k,kk))*(image.at<uchar>(k,kk))*(image.at<uchar>(k,kk));
+    for(int k=0;k<32;k++){
+        for(int kk=0;kk<32;kk++){
+            sum = sum + (input[k][kk])*(input[k][kk])*(input[k][kk]);
         }
     }
     sum = sum/(32*32);
     return sum;
 }
 
-double moment4(int i, int j, Mat image){
-    int ii = i-15; 
-    int jj = j-15;
+double moment4(int input[32][32]){
     double sum = 0;
-    for(int k=ii;k<ii+32;k++){
-        for(int kk=jj;kk<jj+32;kk++){
-            sum = sum + (image.at<uchar>(k,kk))*(image.at<uchar>(k,kk))*(image.at<uchar>(k,kk))*(image.at<uchar>(k,kk));
+    for(int k=0;k<32;k++){
+        for(int kk=0;kk<32;kk++){
+            sum = sum + (input[k][kk])*(input[k][kk])*(input[k][kk])*(input[k][kk]);
         }
     }
     sum = sum/(32*32);
