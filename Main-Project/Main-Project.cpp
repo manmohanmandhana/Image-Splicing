@@ -135,7 +135,15 @@ int main()
                 }
             } 
         }
-    }    
+    }
+    
+    //Now we process this window through the desired functions
+    for(int k=1;k<64;k++){
+       
+       // all 63 AC channels, compute an image for each of them first
+       // int array to image??
+       
+    }
     
     waitKey(0);
     return 0;
