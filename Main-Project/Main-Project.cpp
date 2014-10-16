@@ -132,6 +132,8 @@ int main()
     //Now we process this window through the desired functions
     int temp[32][32]=0;
     double m1,m2,m3,m4;
+    int kurt[63];
+    int var[63];
     for(int k=1;k<64;k++){
        
        // all 63 AC channels, compute an image for each of them first
@@ -147,6 +149,10 @@ int main()
        m3 = moment3(temp);
        m4 = moment4(temp);
           
+      // Now estimating the kurtosis and varience of the channel for this local window
+      var[k-1] = compute_varience(m1,m2);
+      kurt[k-1] = compute_kurtosis(m1,m2,m3,m4);
+      
     }
     
     waitKey(0);
